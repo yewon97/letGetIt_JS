@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>쿵쿵따 게임</title>
+    <style type="text/css">
+      .wrapper {
+        background-color: beige;
+        box-sizing: border-box;
+        width: 800px;
+        height: 500px;
+        margin: auto;
+        overflow: auto; /* 자식요소 마진탑 준걸로 밑으로 안딸려 내려오게 하기 위해서 */
+      }
+      .number_wrapper {
+        text-align: right;
+        padding-top: 5px;
+        padding-right: 10px;
+      }
+      .order_wrapper {
+        margin: 30px auto 70px;
+        width: 400px;
+        height: 50px;
+        text-align: center;
+        font-size: 45px;
+      }
+      .suggest_word {
+        text-align: center;
+        font-size: 20px;
+      }
+      .word_wrapper {
+        margin: 30px auto 90px;
+        height: 100px;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .word_wrapper span {
+        text-align: center;
+        font-size: 70px;
+        line-height: 90px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50px;
+      }
+      /* .word {
+        display: none;
+      } */
+      .word_wrapper .first_letter {
+        background-color: rgb(255, 197, 71);
+      }
+      .word_wrapper .second_letter {
+        background-color: rgb(71, 255, 215);
+      }
+      .word_wrapper .third_letter {
+        background-color: rgb(126, 71, 255);
+      }
+      .input_wrapper {
+        width: 550px;
+        height: 40px;
+        margin: auto;
+      }
+      input {
+        width: 500px;
+        height: 40px;
+        border: none;
+        font-size: 30px;
+        box-sizing: border-box;
+        float: left;
+      }
+      button {
+        border: none;
+        height: 40px;
+        background-color: tomato;
+        float: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="number_wrapper">참가자 인원수 : <span id="number">?</span>명</div>
+      <div class="order_wrapper"><span id="order">1</span>번째 참가자</div>
+      <div class="suggest_word">제시어</div>
+      <!-- <div class="word"></div> -->
+      <div class="word_wrapper">
+        <span class="first_letter"></span>
+        <span class="second_letter"></span>
+        <span class="third_letter"></span>
+      </div>
+      <div class="input_wrapper">
+        <input type="text" />
+        <button>입력</button>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const participantNumber = Number(prompt("참가자는 몇 명인가요?"));
+      const $number = document.querySelector("#number");
+      const $button = document.querySelector("button");
+      const $input = document.querySelector("input");
+      // const $word = document.querySelectorAll(".word");
+      const $firstLetter = document.querySelector(".first_letter");
+      const $secondLetter = document.querySelector(".second_letter");
+      const $thirdLetter = document.querySelector(".third_letter");
+      const $order = document.querySelector("#order");
+      let word; // 제시어
+      let newWord; // 현재 단어
+
+      $number.textContent = participantNumber;
+
+      const onInput = () => {
+        // 제시어를 등록하는 함수
+        if (newWord.length === 3) {
+          if (!word || word[2] === newWord[0]) {
+            word = newWord; // 입력한 단어가 제시어가 된다.
+            $firstLetter.textContent = word[0];
+            $secondLetter.textContent = word[1];
+            $thirdLetter.textContent = word[2];
+            // $word.textContent = word;
+            const order = Number($order.textContent);
+            if (order + 1 > participantNumber) {
+              $order.textContent = 1;
+            } else {
+              $order.textContent = order + 1;
+            }
+            $input.value = `${word[2]}`;
+            $input.focus();
+          }
+        } else {
+          alert("세글자만 가능합니다.");
+          $input.value = `${word[2]}`;
+          $input.focus();
+        }
+      };
+
+      const inputWord = (event) => {
+        newWord = event.target.value; // 입력하는 단어를 현재 단어로
+      };
+      
+      $input.addEventListener("input", inputWord);
+      $button.addEventListener("click", onInput);
+      $input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          onInput();
+        }
+      });
+    </script>
+  </body>
+</html>
