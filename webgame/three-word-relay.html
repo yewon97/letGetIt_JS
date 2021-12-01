@@ -139,14 +139,16 @@
       const inputWord = (event) => {
         newWord = event.target.value; // 입력하는 단어를 현재 단어로
       };
-      
-      $input.addEventListener("input", inputWord);
-      $button.addEventListener("click", onInput);
-      $input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          onInput();
-        }
-      });
+
+      if (participantNumber) {
+        $input.addEventListener("input", inputWord);
+        $button.addEventListener("click", onInput);
+        $input.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            onInput();
+          }
+        });
+      }
     </script>
   </body>
 </html>
